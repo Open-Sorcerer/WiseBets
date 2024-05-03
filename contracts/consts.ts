@@ -6,7 +6,7 @@ export const ccipBridgeBaseSepolia =
 
 export const ccipBridgeOPSepolia = "0x039A8561E235cF960bfed66AAD74441E3594aBb4";
 
-export const baseSepoliaContractABI = [
+export const opnionTradingBaseSepoliaABI = [
   {
     inputs: [
       {
