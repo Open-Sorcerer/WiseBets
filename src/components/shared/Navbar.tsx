@@ -25,7 +25,7 @@ const Navbar = () => {
         <div className="flex">
           <Link
             href="/"
-            className="flex flex-row gap-2 items-end text-2xl text-transparent bg-clip-text bg-gradient-to-b from-lime-100 from-[20%] to-lime-300 font-title font-semibold whitespace-nowrap"
+            className="flex flex-row gap-2 items-end text-2xl text-transparent bg-clip-text bg-gradient-to-b from-lime-100 from-[20%] to-lime-300 font-title font-semibold cursor-pointer whitespace-nowrap"
           >
             <Image
               src="/opinion.png"
