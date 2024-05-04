@@ -10,3 +10,11 @@ const redis = new Redis({
 export const saveWorldId = async (address: string, hash: string) => {
   await redis.set(address, hash);
 };
+
+export const getWorldId = async (address: string) => {
+  try {
+    return (await redis.get(address)) as string | null;
+  } catch (error) {
+    console.error(`Failed to get data from Redis: ${error}`);
+  }
+};

@@ -1,65 +1,92 @@
-"use client";
+import { Trade } from "@/components";
+import {
+  opnionTradingBaseSepolia,
+  opnionTradingBaseSepoliaABI,
+} from "@/utils/constants";
+import { createPublicClient, getContract, http } from "viem";
+import { baseSepolia } from "viem/chains";
 
-import { saveWorldId } from "@/db/redis";
-import { IDKitWidget, VerificationLevel } from "@worldcoin/idkit";
-import { NextPage } from "next";
-import { useState } from "react";
-import toast from "react-hot-toast";
-import { useAccount } from "wagmi";
+const TradePage = async () => {
+  const dummyDataList = [
+    {
+      description: "This is a sample description 1",
+      votes: 123,
+      option1: "Option 1",
+      option2: "Option 2",
+      deadline: "2022-12-31",
+      address: "123 Main St",
+    },
+    {
+      description: "This is a sample description 2",
+      votes: 456,
+      option1: "Option A",
+      option2: "Option B",
+      deadline: "2023-01-01",
+      address: "456 Broadway",
+    },
+    {
+      description: "This is a sample description 3",
+      votes: 789,
+      option1: "Option X",
+      option2: "Option Y",
+      deadline: "2023-02-01",
+      address: "789 Park Ave",
+    },
+  ];
 
-const Trade: NextPage = () => {
-  const [nullifierHash, setNullifierHash] = useState();
-  const { address } = useAccount();
-  async function handleVerify(data: any) {
-    data.signal = address;
-    const response = await fetch("/api/verify", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    }).then((res) => res.json());
-    if (response.code === "success") {
-      setNullifierHash(response.wldResponse.nullifier_hash);
-      if (response.wldResponse.nullifier_hash && address) {
-        await saveWorldId(address, response.wldResponse.nullifier_hash);
-      }
-      toast.success("Successfully authenticated with World ID.");
-    } else {
-      toast.error("Authenticated failed with World ID.");
-    }
-  }
-  const onSuccess = () => {
-    console.log("🔥 Verified successfully!");
+  const client = createPublicClient({
+    chain: baseSepolia,
+    transport: http(),
+  });
+
+  const contract = getContract({
+    address: opnionTradingBaseSepolia,
+    abi: opnionTradingBaseSepoliaABI,
+    client,
+  });
+
+  const totalProposals = (await contract.read.proposalCount([])) as number;
+
+  type TProposal = {
+    description: string;
+    option1: string;
+    option2: string;
+    deadline: string;
+    id: number;
+    votes: number;
   };
 
+  let allProposals: TProposal[] = [];
+
+  function timestampToDateString(timestamp: number) {
+    const date = new Date(timestamp * 1000);
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  }
+
+  const fetchProposals = async () => {
+    for (let i = 1; i <= totalProposals; i++) {
+      const proposal = (await contract.read.proposals([i])) as string[];
+      const deadline = timestampToDateString(Number(proposal[3]));
+      allProposals.push({
+        description: proposal[0],
+        option1: proposal[1],
+        option2: proposal[2],
+        deadline,
+        id: i,
+        votes: Number(proposal[4]) + Number(proposal[5]),
+      });
+    }
+  };
+
+  await fetchProposals();
+
+  console.log(allProposals);
+
   return (
-    <div className='flex flex-col w-full pt-36 pb-20 md:pt-32 md:pb-6 lg:py-28 px-10 md:px-24'>
-      <div className='flex flex-row w-full justify-between items-center'>
-        <h1 className='text-2xl md:text-3xl text-gray-200 font-primary font-medium'>
-          Trade on Live Opinions ⚡️
-        </h1>
-        <IDKitWidget
-          app_id={process.env.NEXT_PUBLIC_APP_ID as `app_${string}`}
-          action={process.env.NEXT_PUBLIC_ACTION_ID!}
-          onSuccess={onSuccess}
-          handleVerify={handleVerify}
-          signal={address}
-          verification_level={VerificationLevel.Device}
-        >
-          {({ open }) => (
-            <button
-              className='w-fit px-6 py-3 rounded-lg bg-white hover:bg-neutral-200'
-              onClick={open}
-            >
-              Verify with World ID
-            </button>
-          )}
-        </IDKitWidget>
-      </div>
-      <div className='grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3'></div>
-    </div>
+    <>
+      <Trade data={allProposals} />
+    </>
   );
 };
 
-export default Trade;
+export default TradePage;
