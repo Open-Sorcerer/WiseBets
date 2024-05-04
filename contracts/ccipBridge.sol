@@ -148,6 +148,12 @@ contract ProgrammableTokenTransfers is CCIPReceiver, OwnerIsCreator {
         validateReceiver(_receiver)
         returns (bytes32 messageId)
     {
+
+
+        // Send the token from user to this contract
+        IERC20(_token).safeTransferFrom(msg.sender, address(this), _amount);
+
+
         // Create an EVM2AnyMessage struct in memory with necessary information for sending a cross-chain message
         // address(linkToken) means fees are paid in LINK
         Client.EVM2AnyMessage memory evm2AnyMessage = _buildCCIPMessage(
@@ -185,72 +191,6 @@ contract ProgrammableTokenTransfers is CCIPReceiver, OwnerIsCreator {
             _token,
             _amount,
             address(s_linkToken),
-            fees
-        );
-
-        // Return the message ID
-        return messageId;
-    }
-
-    /// @notice Sends data and transfer tokens to receiver on the destination chain.
-    /// @notice Pay for fees in native gas.
-    /// @dev Assumes your contract has sufficient native gas like ETH on Ethereum or MATIC on Polygon.
-    /// @param _destinationChainSelector The identifier (aka selector) for the destination blockchain.
-    /// @param _receiver The address of the recipient on the destination blockchain.
-    /// @param _text The string data to be sent.
-    /// @param _token token address.
-    /// @param _amount token amount.
-    /// @return messageId The ID of the CCIP message that was sent.
-    function sendMessagePayNative(
-        uint64 _destinationChainSelector,
-        address _receiver,
-        string calldata _text,
-        address _token,
-        uint256 _amount
-    )
-        external
-        onlyOwner
-        onlyAllowlistedDestinationChain(_destinationChainSelector)
-        validateReceiver(_receiver)
-        returns (bytes32 messageId)
-    {
-        // Create an EVM2AnyMessage struct in memory with necessary information for sending a cross-chain message
-        // address(0) means fees are paid in native gas
-        Client.EVM2AnyMessage memory evm2AnyMessage = _buildCCIPMessage(
-            _receiver,
-            _text,
-            _token,
-            _amount,
-            address(0)
-        );
-
-        // Initialize a router client instance to interact with cross-chain router
-        IRouterClient router = IRouterClient(this.getRouter());
-
-        // Get the fee required to send the CCIP message
-        uint256 fees = router.getFee(_destinationChainSelector, evm2AnyMessage);
-
-        if (fees > address(this).balance)
-            revert NotEnoughBalance(address(this).balance, fees);
-
-        // approve the Router to spend tokens on contract's behalf. It will spend the amount of the given token
-        IERC20(_token).approve(address(router), _amount);
-
-        // Send the message through the router and store the returned message ID
-        messageId = router.ccipSend{value: fees}(
-            _destinationChainSelector,
-            evm2AnyMessage
-        );
-
-        // Emit an event with message details
-        emit MessageSent(
-            messageId,
-            _destinationChainSelector,
-            _receiver,
-            _text,
-            _token,
-            _amount,
-            address(0),
             fees
         );
 
@@ -309,7 +249,6 @@ contract ProgrammableTokenTransfers is CCIPReceiver, OwnerIsCreator {
             any2EvmMessage.destTokenAmounts[0].token,
             any2EvmMessage.destTokenAmounts[0].amount
         );
-        
     }
 
     /// @notice Construct a CCIP message.
