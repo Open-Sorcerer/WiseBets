@@ -2,9 +2,9 @@ export const opnionTradingBaseSepolia =
   "0x06a7ca596b3be8a7E75d192D572Dc43AeD375C81";
 
 export const ccipBridgeBaseSepolia =
-  "0xB58E72B582B5419315fD0C4A17CE1Ab71836BD41";
+  "0x5EB2E851499Be5Bda359f3316Da43fE4099a1990";
 
-export const ccipBridgeOPSepolia = "0x3a0d973047624E06a78c3560cc120498406968D7";
+export const ccipBridgeOPSepolia = "0xe69D08Ad3d88AA3D1d4827D5774c3152619a13f1";
 
 export const opnionTradingBaseSepoliaABI = [
   {
