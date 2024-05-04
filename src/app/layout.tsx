@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./providers";
+import { Navbar } from "@/components";
 
 export const metadata: Metadata = {
   title: "Opinion Swap",
@@ -15,8 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-screen bg-gradient-radial from-[#313131] via-[#202020] to-[#101010]">
-        <Providers>{children}</Providers>
+      <body className="h-screen bg-gradient-radial from-[#282828] via-[#1a1a1a] to-[#0a0a0a]">
+        <Providers>
+          <Navbar />
+          {children}
+        </Providers>
       </body>
     </html>
   );
