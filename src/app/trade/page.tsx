@@ -1,5 +1,6 @@
 "use client";
 
+import { saveWorldId } from "@/db/redis";
 import { IDKitWidget, VerificationLevel } from "@worldcoin/idkit";
 import { NextPage } from "next";
 import { useState } from "react";
@@ -20,6 +21,9 @@ const Trade: NextPage = () => {
     }).then((res) => res.json());
     if (response.code === "success") {
       setNullifierHash(response.wldResponse.nullifier_hash);
+      if (response.wldResponse.nullifier_hash && address) {
+        await saveWorldId(address, response.wldResponse.nullifier_hash);
+      }
       toast.success("Successfully authenticated with World ID.");
     } else {
       toast.error("Authenticated failed with World ID.");
@@ -30,9 +34,9 @@ const Trade: NextPage = () => {
   };
 
   return (
-    <div className="flex flex-col w-full pt-36 pb-20 md:pt-32 md:pb-6 lg:py-28 px-10 md:px-24">
-      <div className="flex flex-row w-full justify-between items-center">
-        <h1 className="text-2xl md:text-3xl text-gray-200 font-primary font-medium">
+    <div className='flex flex-col w-full pt-36 pb-20 md:pt-32 md:pb-6 lg:py-28 px-10 md:px-24'>
+      <div className='flex flex-row w-full justify-between items-center'>
+        <h1 className='text-2xl md:text-3xl text-gray-200 font-primary font-medium'>
           Trade on Live Opinions ⚡️
         </h1>
         <IDKitWidget
@@ -45,7 +49,7 @@ const Trade: NextPage = () => {
         >
           {({ open }) => (
             <button
-              className="w-fit px-6 py-3 rounded-lg bg-white hover:bg-neutral-200"
+              className='w-fit px-6 py-3 rounded-lg bg-white hover:bg-neutral-200'
               onClick={open}
             >
               Verify with World ID
@@ -53,7 +57,7 @@ const Trade: NextPage = () => {
           )}
         </IDKitWidget>
       </div>
-      <div className="grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3"></div>
+      <div className='grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3'></div>
     </div>
   );
 };
