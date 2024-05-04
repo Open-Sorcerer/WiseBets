@@ -41,7 +41,7 @@ contract OpinionTrading is Ownable, ReentrancyGuard {
         dataFeed = AggregatorV3Interface(0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1);
     }
 
-    function createProposal(string memory _description, string memory _option1, string memory _option2, uint256 _deadline) external onlyOwner {
+    function createProposal(string memory _description, string memory _option1, string memory _option2, uint256 _deadline) external  {
         require(_deadline > block.timestamp, "Invalid deadline");
         proposalCount++;
         proposals[proposalCount] = Proposal(_description, _option1, _option2, _deadline, 0, 0, 0, 0, 0, 0, false, 0);
