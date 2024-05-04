@@ -6,6 +6,7 @@ import { IDKitWidget, VerificationLevel } from "@worldcoin/idkit";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAccount } from "wagmi";
+import { VscVerifiedFilled } from "react-icons/vsc";
 
 interface TOpinion {
   description: string;
@@ -61,14 +62,15 @@ const Trade = ({ data }: TradeProps) => {
   };
 
   return (
-    <div className='flex flex-col w-full pt-36 pb-20 md:pt-32 md:pb-6 lg:py-28 px-10 md:px-24'>
-      <div className='flex flex-row w-full justify-between items-center'>
-        <h1 className='text-2xl md:text-3xl text-gray-200 font-primary font-medium'>
+    <div className="flex flex-col w-full pt-36 pb-20 md:pt-32 md:pb-6 lg:py-28 px-10 md:px-24">
+      <div className="flex flex-row w-full justify-between items-center">
+        <h1 className="text-2xl md:text-3xl text-gray-200 font-primary font-medium">
           Trade on Live Opinions ⚡️
         </h1>
         {worldId ? (
-          <span className='text-neutral-300 text-xl font-primary'>
-            You are verified with World ID
+          <span className="flex flex-row gap-2 w-fit px-6 py-3 items-center rounded-lg bg-white hover:bg-neutral-200">
+            Verified World ID
+            <VscVerifiedFilled className="w-6 h-6 text-green-500" />
           </span>
         ) : (
           <IDKitWidget
@@ -81,7 +83,7 @@ const Trade = ({ data }: TradeProps) => {
           >
             {({ open }) => (
               <button
-                className='w-fit px-6 py-3 rounded-lg bg-white hover:bg-neutral-200'
+                className="w-fit px-6 py-3 rounded-lg bg-white hover:bg-neutral-200"
                 onClick={open}
               >
                 Verify with World ID
@@ -90,7 +92,7 @@ const Trade = ({ data }: TradeProps) => {
           </IDKitWidget>
         )}
       </div>
-      <div className='grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-4'>
+      <div className="grid grid-flow-row grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mt-4">
         {data.map((data, index) => (
           <Card key={index} {...data} />
         ))}

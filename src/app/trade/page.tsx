@@ -7,33 +7,6 @@ import { createPublicClient, getContract, http } from "viem";
 import { baseSepolia } from "viem/chains";
 
 const TradePage = async () => {
-  const dummyDataList = [
-    {
-      description: "This is a sample description 1",
-      votes: 123,
-      option1: "Option 1",
-      option2: "Option 2",
-      deadline: "2022-12-31",
-      address: "123 Main St",
-    },
-    {
-      description: "This is a sample description 2",
-      votes: 456,
-      option1: "Option A",
-      option2: "Option B",
-      deadline: "2023-01-01",
-      address: "456 Broadway",
-    },
-    {
-      description: "This is a sample description 3",
-      votes: 789,
-      option1: "Option X",
-      option2: "Option Y",
-      deadline: "2023-02-01",
-      address: "789 Park Ave",
-    },
-  ];
-
   const client = createPublicClient({
     chain: baseSepolia,
     transport: http(),
@@ -79,8 +52,6 @@ const TradePage = async () => {
   };
 
   await fetchProposals();
-
-  console.log(allProposals);
 
   return (
     <>
