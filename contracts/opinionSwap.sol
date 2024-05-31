@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -53,8 +53,6 @@ contract OpinionTrading is Ownable, ReentrancyGuard {
         require(proposal.deadline > block.timestamp, "Voting period has ended");
         require(_option == 1 || _option == 2, "Invalid option");
         require(!userVoted[_proposalId][msg.sender], "User has already voted");
-        require(_amountUSDC > 0 || _amountETH > 0, "Invalid amount");
-        require(msg.value == _amountETH, "ETH amount mismatch");
 
         userVoted[_proposalId][msg.sender] = true;
         userStakesUSDC[_proposalId][msg.sender] = _amountUSDC;
@@ -166,9 +164,35 @@ contract OpinionTrading is Ownable, ReentrancyGuard {
         return proposal.option1PoolETH + proposal.option2PoolETH;
     }
 
+    function convertUSDCToETH(uint256 _usdcAmount) public view returns (uint256) {
+        int256 usdcPrice = getChainlinkDataFeedLatestAnswer();
+        require(usdcPrice > 0, "Invalid USDC price");
+        uint256 ethPerUsdc = uint256(usdcPrice) * 10**8; // Adjust decimals based on the USDC token
+        uint256 ethAmount = (_usdcAmount * 10**18) / ethPerUsdc;
+        return ethAmount;
+    }
+
     function getChainlinkDataFeedLatestAnswer() public view returns (int) {
         (, int answer, , , ) = dataFeed.latestRoundData();
         return answer;
+    }
+
+    function convertETHToUSDC(uint256 _ethAmount) public view returns (uint256) {
+        int256 usdcPrice = getChainlinkDataFeedLatestAnswer();
+        require(usdcPrice > 0, "Invalid USDC price");
+        uint256 usdcPerEth = (10**26) / uint256(usdcPrice); // Adjust decimals based on the USDC token
+        uint256 usdcAmount = (_ethAmount * usdcPerEth) / 10**18;
+        return usdcAmount;
+    }
+
+    function getTotalContractBalanceInUSDC() external view returns (uint256) {
+        uint256 ethBalance = address(this).balance;
+        uint256 usdcBalance = usdcToken.balanceOf(address(this));
+
+        uint256 ethBalanceInUSDC = convertETHToUSDC(ethBalance);
+        uint256 totalBalanceInUSDC = usdcBalance + ethBalanceInUSDC;
+
+        return totalBalanceInUSDC;
     }
 
     function getUserVote(uint256 _proposalId, address _user) external view returns (bool) {
