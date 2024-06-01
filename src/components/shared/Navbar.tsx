@@ -89,9 +89,9 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href="/#"
+                href="/bridge"
                 className={`block py-2 px-3 ${
-                  pathname === "/#"
+                  pathname === "/bridge"
                     ? "text-violet-500 hover:text-black"
                     : "text-neutral-600 hover:text-violet-600"
                 } rounded-lg hover:bg-neutral-900/40 md:hover:bg-transparent md:border-0 md:hover:text-violet-600 md:p-0`}
