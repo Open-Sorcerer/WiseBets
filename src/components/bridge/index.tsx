@@ -30,11 +30,8 @@ export default function BridgeKit() {
   const filteredNetworks2 = bridgeNetworks.filter((network) => network !== selectedNetwork1);
   return (
     <main className="flex min-h-screen flex-col items-center justify-start gap-10 py-32 px-5">
-      <div className="relative flex flex-col gap-5 place-items-center before:absolute before:h-[50px] before:w-[180px] sm:before:h-[200px] md:before:w-[780px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[200px] sm:after:h-[180px] sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-orange-200 after:via-orange-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-violet-500 before:dark:opacity-10 after:dark:from-violet-400 after:dark:via-[#01fff7] after:dark:opacity-40 before:lg:h-[260px] z-[-1]">
+      <div className="relative flex place-items-center before:absolute before:h-[50px] before:w-[180px] sm:before:h-[200px] md:before:w-[780px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[200px] sm:after:h-[180px] sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-orange-200 after:via-orange-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-violet-500 before:dark:opacity-10 after:dark:from-violet-400 after:dark:via-[#01fff7] after:dark:opacity-40 before:lg:h-[260px] z-[-1]">
         <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-title">Bridge ETH</h1>
-        <span className="flex flex-row items-center gap-3">
-          powered by <Image alt="Chainlink" src="/chainlink.png" width={100} height={100} />{" "}
-        </span>
       </div>
       <div className="bg-[#ffffff]/20 w-full sm:w-3/4 md:w-2/3 lg:h-2/3 xl:w-1/2 flex flex-col p-5 gap-5 items-center border-2 border-orange-100 rounded-2xl">
         <div className="w-full flex flex-col md:flex-row gap-y-4 items-center justify-between">
@@ -80,6 +77,9 @@ export default function BridgeKit() {
           Bridge {amount! > 0 && `${amount} ETH`}
         </button>
       </div>
+      <span className="flex flex-row items-center gap-3">
+        powered by <Image alt="Chainlink" src="/chainlink.png" width={100} height={100} />{" "}
+      </span>
     </main>
   );
 }
