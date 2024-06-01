@@ -1,4 +1,6 @@
-import { baseSepolia, mantleSepoliaTestnet } from "viem/chains";
+import { baseSepolia } from "viem/chains";
+
+export const bridgeNetworks = ["Base", "Moonbeam", "zkSync", "Polygon", "Avalanche"];
 
 export const networks = [
   {

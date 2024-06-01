@@ -1,3 +1,3 @@
-import { networks } from "./constants";
+import { networks, bridgeNetworks } from "./constants";
 
-export { networks };
+export { networks, bridgeNetworks };

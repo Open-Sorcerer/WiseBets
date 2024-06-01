@@ -161,7 +161,7 @@ export default function Card({ description, votes, option1, option2, deadline, i
               "Placing order..."
             ) : (
               <p>
-                Bet {option} {bet > 0 && `(${(bet * 3600).toFixed(2)} USD)`}
+                Bet {option} {bet > 0 && `(${(bet * 3750).toFixed(2)} USD)`}
               </p>
             )}
           </button>

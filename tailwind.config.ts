@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const plugin = require("tailwindcss/plugin");
 
 const config: Config = {
   content: [
@@ -17,21 +18,27 @@ const config: Config = {
       title: ["Trap"],
       primary: ["NunitoSans"],
     },
-    keyframes: {
-      float: {
-        "0%": { transform: "translateY(0)" },
-        "100%": { transform: "translateY(-20px)" },
-      },
-      wiggle: {
-        "0%, 100%": { transform: "rotate(-3deg)" },
-        "50%": { transform: "rotate(3deg)" },
-      },
-    },
-    animation: {
-      float: "float 2s infinite alternate",
-      wiggle: "wiggle 1s ease-in-out infinite",
-    },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addBase, theme }: { addBase: any; theme: any }) => {
+      addBase({
+        ".scrollbar": {
+          overflowY: "auto",
+          scrollbarColor: `${theme("colors.indigo.200")} ${theme("colors.indigo.50")}`,
+          scrollbarWidth: "thin",
+        },
+        ".scrollbar::-webkit-scrollbar": {
+          height: "1px",
+          width: "1px",
+        },
+        ".scrollbar::-webkit-scrollbar-thumb": {
+          backgroundColor: theme("colors.indigo.200"),
+        },
+        ".scrollbar::-webkit-scrollbar-track-piece": {
+          backgroundColor: theme("colors.indigo.50"),
+        },
+      });
+    }),
+  ],
 };
 export default config;
