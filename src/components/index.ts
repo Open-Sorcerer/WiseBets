@@ -1,6 +1,7 @@
+import Hero from "./home";
+import CreateCampaign from "./create";
 import Navbar from "./shared/Navbar";
 import Input from "./form/input";
-import Card from "./trade/card";
-import Trade from "./trade/trade";
+import Trade from "./trade";
 
-export { Navbar, Input, Card, Trade };
+export { Hero, CreateCampaign, Navbar, Input, Trade };

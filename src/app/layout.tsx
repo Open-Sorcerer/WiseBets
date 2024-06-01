@@ -5,9 +5,9 @@ import { Navbar } from "@/components";
 import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
-  title: "Opinion Swap",
-  description: "Built at ETH Sydney",
-  icons: "/favicon.ico",
+  title: "Wisebets",
+  description: "Trade your opinions on multiple chains",
+  icons: "/wisebets.png",
 };
 
 export default function RootLayout({
@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="h-screen bg-gradient-radial from-[#282828] via-[#1a1a1a] to-[#0a0a0a]">
+      <body className="bg-gradient-radial from-[#fff2dd] via-[#fef3e1] to-[#fef3e1]">
         <Providers>
           <Navbar />
           {children}

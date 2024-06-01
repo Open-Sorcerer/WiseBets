@@ -1,21 +1,29 @@
 import { Trade } from "@/components";
-import { networks } from "@/utils/constants";
+import { networks } from "@/utils";
+import { Metadata } from "next";
 import { Abi, createPublicClient, getContract, http } from "viem";
-import { baseSepolia, mantleSepoliaTestnet } from "viem/chains";
+import { baseSepolia, polygonZkEvmCardona } from "viem/chains";
 
 export const fetchCache = "force-no-store";
 
-const TradePage = async ({
+export function generateMetadata(): Promise<Metadata> {
+  return Promise.resolve({
+    title: "Trade | WiseBets",
+    icons: "/wisebets.png",
+  });
+}
+
+export default async function TradePage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+}) {
   const chainId = Number(searchParams.chainId);
 
   const network = networks.find((network) => network.id === chainId);
 
   const client = createPublicClient({
-    chain: chainId === baseSepolia.id ? baseSepolia : mantleSepoliaTestnet,
+    chain: chainId === baseSepolia.id ? baseSepolia : polygonZkEvmCardona,
     transport: http(),
   });
 
@@ -65,6 +73,4 @@ const TradePage = async ({
       <Trade data={allProposals} />
     </>
   );
-};
-
-export default TradePage;
+}

@@ -1,16 +1,41 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { WagmiProvider } from "wagmi";
-import config from "@/utils/wagmi";
-import { ConnectKitProvider } from "connectkit";
+import { WagmiProvider, createConfig } from "wagmi";
+import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import {
+  avalancheFuji,
+  base,
+  baseSepolia,
+  moonbeam,
+  polygonAmoy,
+  polygonZkEvmCardona,
+  scrollSepolia,
+} from "viem/chains";
+
+const config = createConfig(
+  getDefaultConfig({
+    chains: [
+      polygonZkEvmCardona,
+      polygonAmoy,
+      scrollSepolia,
+      avalancheFuji,
+      base,
+      baseSepolia,
+      moonbeam,
+    ],
+    walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
+    appName: "WiseBets",
+    ssr: true,
+  }),
+);
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient();
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <ConnectKitProvider theme="retro">{children}</ConnectKitProvider>
+        <ConnectKitProvider theme="nouns">{children}</ConnectKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
