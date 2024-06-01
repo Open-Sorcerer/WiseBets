@@ -26,7 +26,7 @@ export default function Hero() {
                 onClick={() => {
                   router.push(`/trade?chainId=${chain?.id ?? baseSepolia.id}`);
                 }}
-                className="px-6 py-3 text-lg font-medium text-center text-white bg-violet-500 hover:bg-violet-600 rounded-xl"
+                className="px-10 py-3 text-lg font-medium text-center text-white bg-violet-500 hover:bg-violet-600 rounded-3xl"
               >
                 Start trading
               </button>

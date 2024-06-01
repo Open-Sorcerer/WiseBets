@@ -68,16 +68,16 @@ export default function Card({ description, votes, option1, option2, deadline, i
   }, [status, isSuccess, isValid]);
 
   return (
-    <div className="flex flex-col w-[20rem] h-[14rem] bg-[#141414] bg-opacity-70 border border-neutral-800 backdrop-filter backdrop-blur-sm rounded-xl shadow-md p-6 justify-between">
+    <div className="flex flex-col w-[20rem] h-[14rem] bg-white bg-opacity-40 border border-neutral-100 backdrop-filter backdrop-blur-sm rounded-xl shadow-md p-6 justify-between">
       <span className="flex flex-row items-center justify-between">
-        <h2 className="w-[80%] text-xl text-neutral-200 font-primary font-medium truncate">
+        <h2 className="w-[80%] text-xl text-neutral-600 font-primary font-medium truncate">
           {description}
         </h2>
         <button
           onClick={() => {
             !trade
               ? window.open(
-                  `https://warpcast.com/~/compose?embeds[]=https://opinion-frame.vercel.app/bet?id=${id}`,
+                  `https://warpcast.com/~/compose?embeds[]=https://wisebets-frame.vercel.app/bet?id=${id}`,
                   "_blank",
                 )
               : setTrade(false);
@@ -113,12 +113,12 @@ export default function Card({ description, votes, option1, option2, deadline, i
         <div className="flex flex-col w-full">
           <div className="flex flex-row justify-between items-center px-1">
             <span className="inline-flex items-center gap-2">
-              <BsPeopleFill className="text-violet-200" />
-              <p className="text-violet-300 text-lg font-primary truncate">{votes}</p>
+              <BsPeopleFill className="text-violet-500" />
+              <p className="text-violet-600 text-lg font-primary truncate">{votes}</p>
             </span>
             <span className="inline-flex items-center gap-2">
-              <GiSandsOfTime className="text-neutral-200" />
-              <p className="text-neutral-300">{deadline}</p>
+              <GiSandsOfTime className="text-neutral-400" />
+              <p className="text-neutral-500">{deadline}</p>
             </span>
           </div>
           <div className="flex flex-row justify-between items-center gap-2 mt-6">
@@ -127,7 +127,7 @@ export default function Card({ description, votes, option1, option2, deadline, i
                 setOption(option1);
                 setTrade(true);
               }}
-              className="w-[50%] p-2 text-violet-100 text-center bg-neutral-200/10 hover:bg-neutral-400/10 hover:border hover:border-violet-200/50 rounded-lg truncate"
+              className="w-[50%] p-2 text-violet-500 text-center bg-white hover:bg-white/80 border border-violet-200 hover:border-violet-400 rounded-lg truncate"
             >
               {option1}
             </button>
@@ -136,7 +136,7 @@ export default function Card({ description, votes, option1, option2, deadline, i
                 setOption(option2);
                 setTrade(true);
               }}
-              className="w-[50%] p-2 text-violet-100 text-center bg-neutral-200/10 hover:bg-neutral-400/10 hover:border hover:border-violet-200/50 rounded-lg truncate"
+              className="w-[50%] p-2 text-violet-500 text-center bg-white hover:bg-white/80 border border-violet-200 hover:border-violet-400 rounded-lg truncate"
             >
               {option2}
             </button>
@@ -148,13 +148,12 @@ export default function Card({ description, votes, option1, option2, deadline, i
             id="bet"
             name="bet"
             placeholder="0.005 ETH"
-            type="text"
+            type="number"
             onChange={(e: { target: { value: SetStateAction<number> } }) => setBet(e.target.value)}
-            classname="text-neutral-100"
           />
           <button
             onClick={placeBet}
-            className="w-full text-neutral-900 hover:text-neutral-800 bg-gradient-to-tr from-violet-100 to-violet-300 hover:from-violet-200 hover:to-violet-300 rounded-lg px-5 py-2.5 text-center font-medium shadow disabled:opacity-75 disabled:cursor-progress"
+            className="w-full text-neutral-100 bg-violet-500 hover:bg-violet-600 rounded-lg px-5 py-2.5 text-center font-medium shadow disabled:opacity-75 disabled:cursor-progress"
             disabled={isLoading}
           >
             {isLoading ? (

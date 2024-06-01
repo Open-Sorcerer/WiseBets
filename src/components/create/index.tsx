@@ -92,7 +92,6 @@ export default function CreateCampaign() {
                 setDescription(e.target.value)
               }
               helper="This can be your description of campaign"
-              classname="text-neutral-700"
             />
             <div className="relative w-full">
               <p className="text-neutral-600 text-sm md:text-[1.2rem]">Deadline</p>
@@ -128,7 +127,6 @@ export default function CreateCampaign() {
                 setOption1(e.target.value)
               }
               helper="This can be your first option"
-              classname="text-neutral-700"
             />
             <Input
               id="option2"
@@ -140,7 +138,6 @@ export default function CreateCampaign() {
                 setOption2(e.target.value)
               }
               helper="This can be your second option"
-              classname="text-neutral-700"
             />
             <button
               onClick={async (e) => {
