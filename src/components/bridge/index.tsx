@@ -16,10 +16,13 @@ import {
 import { parseUnits } from "viem";
 import Spinner from "../shared/Spinner";
 import toast from "react-hot-toast";
+import Link from "next/link";
+import FarcasterIcon from "@/icons/farcaster";
 
 export default function BridgeKit() {
   const [selectedNetwork1, setSelectedNetwork1] = useState<string | null>(null);
   const [selectedNetwork2, setSelectedNetwork2] = useState<string | null>(null);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const [loading, setLoading] = useState<"approve" | "bridge" | "none">("none");
   const [amount, setAmount] = useState<number>();
   const { address } = useAccount();
@@ -133,9 +136,9 @@ export default function BridgeKit() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-start gap-10 py-32 px-5">
+    <main className="flex flex-col items-center justify-start gap-3 pt-32 pb-10 md:pb-0 px-5">
       <div className="relative flex place-items-center before:absolute before:h-[50px] before:w-[180px] sm:before:h-[200px] md:before:w-[780px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[200px] sm:after:h-[180px] sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-orange-200 after:via-orange-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-violet-500 before:dark:opacity-10 after:dark:from-violet-400 after:dark:via-[#01fff7] after:dark:opacity-40 before:lg:h-[260px] z-[-1]">
-        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-title">Bridge USDC</h1>
+        <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-title mb-6">Bridge USDC</h1>
       </div>
       <div className="bg-[#ffffff]/20 w-full sm:w-3/4 md:w-2/3 lg:h-2/3 xl:w-1/2 flex flex-col p-5 gap-5 items-center border-2 border-orange-100 rounded-2xl">
         <div className="w-full flex flex-col md:flex-row gap-y-4 items-center justify-between">
@@ -182,7 +185,23 @@ export default function BridgeKit() {
           {loading !== "none" && <Spinner className="text-white" />}
         </button>
       </div>
-      <span className="flex flex-row items-center gap-3">
+      <div className="inline-flex items-center justify-center w-full sm:w-3/4 md:w-2/3 lg:h-2/3 xl:w-1/2">
+        <hr className="w-full h-px my-8 bg-gradient-to-r from-transparent to-transparent via-neutral-400 border-0" />
+        <span className="absolute px-3 font-medium -translate-x-1/2 left-1/2 text-neutral-800">
+          OR
+        </span>
+      </div>
+      <Link
+        id="frame"
+        href="https://warpcast.com/neelpatel/0x503a9fbc"
+        target="_blank"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="flex flex-row items-center justify-center gap-4 border border-violet-500 hover:bg-violet-500 text-lg text-neutral-800 hover:text-white font-medium hover:shadow-lg py-3 px-10 rounded-xl w-full sm:w-3/4 md:w-2/3 lg:h-2/3 xl:w-[46%]"
+      >
+        <FarcasterIcon color={!isHovered ? "black" : "white"} /> Buy it from Frame
+      </Link>
+      <span className="flex flex-row items-center mt-2 gap-3">
         powered by <Image alt="Chainlink" src="/chainlink.png" width={100} height={100} />{" "}
       </span>
     </main>
