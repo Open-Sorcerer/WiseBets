@@ -11,8 +11,16 @@ With over 200k monthly active users on Farcaster, we've found the perfect distri
 
 ## Deployed Links
 
-- [Base Sepolia Deployed Contract](https://sepolia.basescan.org/address/0xC21A38478c3412e7253B79E6E1e9Cd3d15F5b73c)
-- [Base CCIP Bridge](https://ccip.chain.link/address/0x5EB2E851499Be5Bda359f3316Da43fE4099a1990)
+- [Avalanche Fuji CCIP Bridge](https://ccip.chain.link/address/0x5EB2E851499Be5Bda359f3316Da43fE4099a1990)
+- [Polygon Amoy CCIP Bridge](https://ccip.chain.link/address/0xA4CCEb9e84b9682ca559AA41DB57f4BECe586dc5)
+- [Base Sepolia CCIP Bridge](https://ccip.chain.link/address/0x3527a033DC85BEf7b9D2Ec8217d7aB9EedB08592)
+
+- [Polygon Amoy WiseBets Contract](https://amoy.polygonscan.com/address/0x1a8784a45731F889D4a92258AE7E149d5C737AA1)
+- [Polygon Cardona WiseBets Contract](https://cardona-zkevm.polygonscan.com/address/0xA4CCEb9e84b9682ca559AA41DB57f4BECe586dc5)
+- [Scroll Sepolia WiseBets Contract](https://sepolia.scrollscan.com/address/0x039A8561E235cF960bfed66AAD74441E3594aBb4)
+- [Avalanche Fuji WiseBets Contract](https://testnet.snowtrace.io/address/0x73aA77fd872208Db90175C3a8BFA2cbba8859732)
+- [Moonbeam WiseBets Contract](https://moonscan.io/address/0xA07637a697ba5c60DEF233508D57B9EDFffBE803)
+- [zkSync Sepolia WiseBets Contract](https://sepolia.explorer.zksync.io/address/0x7757D59d21D9d48382Ca3d755C5609a7a2F3BcBe)
 
 ### 🎯 How does it work?
 
