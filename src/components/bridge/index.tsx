@@ -199,7 +199,7 @@ export default function BridgeKit() {
         onMouseLeave={() => setIsHovered(false)}
         className="flex flex-row items-center justify-center gap-4 border border-violet-500 hover:bg-violet-500 text-lg text-neutral-800 hover:text-white font-medium hover:shadow-lg py-3 px-10 rounded-xl w-full sm:w-3/4 md:w-2/3 lg:h-2/3 xl:w-[46%]"
       >
-        <FarcasterIcon color={!isHovered ? "black" : "white"} /> Buy it from Frame
+        <FarcasterIcon color={!isHovered ? "black" : "white"} /> Bridge it from Frame
       </Link>
       <span className="flex flex-row items-center mt-2 gap-3">
         powered by <Image alt="Chainlink" src="/chainlink.png" width={100} height={100} />{" "}
