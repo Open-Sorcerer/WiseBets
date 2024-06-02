@@ -75,7 +75,7 @@ export default function Card({ description, votes, option1, option2, deadline, i
             onClick={() => {
               !trade
                 ? window.open(
-                    `https://warpcast.com/~/compose?embeds[]=https://9f68-2402-a00-142-9d1d-8cf4-f49b-92f8-dcec.ngrok-free.app/bet?id=${id}`,
+                    `https://warpcast.com/~/compose?embeds[]=https://wisebets-frame.vercel.app/bet?id=${id}`,
                     "_blank",
                   )
                 : setTrade(false);
