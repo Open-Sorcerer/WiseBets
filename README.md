@@ -18,7 +18,7 @@ With over 200k monthly active users on Farcaster, we've found the perfect distri
 
 It's simple! We create exciting proposals on various topics, from sports matches to crypto price predictions. All you need to do is choose your side, place your bets using USDC tokens, and wait for the outcome. The more accurate your predictions, the bigger your rewards! 💸
 
-But wait, there's more! WiseBets is breaking down barriers and embracing the power of cross-chain interoperability. Thanks to the amazing Chainlink CCIP, you can now place bets from the Avalanche and Polygon Amoy networks and have your tokens and bets seamlessly transferred. 
+But wait, there's more! WiseBets is breaking down barriers and embracing the power of cross-chain interoperability. Thanks to the amazing Chainlink CCIP, you can now place bets from the Avalanche and Polygon Amoy networks and have your tokens and bets seamlessly transferred.
 
 WiseBets is also deployed on the zkSync, Scroll, Polygon Cardona and Moonbeam networks, giving you even more opportunities to showcase your prediction skills. As Chainlink CCIP expands its support, we'll be right there, ready to bring you a truly multi-chain opinion trading experience! 🌐💫
 

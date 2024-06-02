@@ -22,7 +22,7 @@ const config = createConfig(
       avalancheFuji,
       baseSepolia,
       moonbeam,
-      zkSyncSepoliaTestnet
+      zkSyncSepoliaTestnet,
     ],
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
     appName: "WiseBets",

@@ -6,7 +6,13 @@ import { SetStateAction, useEffect, useState } from "react";
 import Image from "next/image";
 import { useAccount, useSwitchChain, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { avalancheFuji, baseSepolia, polygonAmoy } from "viem/chains";
-import { USDCABI, bridgeABI, bridgeContracts, chainIds, usdcAddress } from "../../../contracts/consts";
+import {
+  USDCABI,
+  bridgeABI,
+  bridgeContracts,
+  chainIds,
+  usdcAddress,
+} from "../../../contracts/consts";
 import { parseUnits } from "viem";
 import Spinner from "../shared/Spinner";
 import toast from "react-hot-toast";
@@ -14,16 +20,16 @@ import toast from "react-hot-toast";
 export default function BridgeKit() {
   const [selectedNetwork1, setSelectedNetwork1] = useState<string | null>(null);
   const [selectedNetwork2, setSelectedNetwork2] = useState<string | null>(null);
-  const [loading, setLoading] = useState<'approve' | 'bridge' | 'none'>('none');
+  const [loading, setLoading] = useState<"approve" | "bridge" | "none">("none");
   const [amount, setAmount] = useState<number>();
   const { address } = useAccount();
   const { switchChain } = useSwitchChain();
 
   useEffect(() => {
-    if (selectedNetwork1 === 'Base Sepolia') switchChain({ chainId: baseSepolia.id });
-    else if (selectedNetwork1 === 'Avalanche Fuji') switchChain({ chainId: avalancheFuji.id });
+    if (selectedNetwork1 === "Base Sepolia") switchChain({ chainId: baseSepolia.id });
+    else if (selectedNetwork1 === "Avalanche Fuji") switchChain({ chainId: avalancheFuji.id });
     else switchChain({ chainId: polygonAmoy.id });
-   }, [selectedNetwork1]);
+  }, [selectedNetwork1]);
 
   const handleSelectNetwork1 = (network: string) => {
     setSelectedNetwork1(network);
@@ -35,15 +41,15 @@ export default function BridgeKit() {
     if (network === selectedNetwork1) setSelectedNetwork1(null);
   };
 
-  const filteredNetworks1 = ['Base Sepolia', 'Avalanche Fuji', 'Polygon Amoy'];
-  const filteredNetworks2 = ['Optimism Sepolia'];
+  const filteredNetworks1 = ["Base Sepolia", "Avalanche Fuji", "Polygon Amoy"];
+  const filteredNetworks2 = ["Optimism Sepolia"];
 
-  if (selectedNetwork1 === 'Base Sepolia') {
-    filteredNetworks2.push('Avalanche Fuji', 'Arbitrum Sepolia');
-  } else if (selectedNetwork1 === 'Avalanche Fuji') {
-    filteredNetworks2.push('Polygon Amoy', 'Base Sepolia', 'Arbitrum Sepolia');
-  } else if (selectedNetwork1 === 'Polygon Amoy') { 
-    filteredNetworks2.push('Avalanche Fuji');
+  if (selectedNetwork1 === "Base Sepolia") {
+    filteredNetworks2.push("Avalanche Fuji", "Arbitrum Sepolia");
+  } else if (selectedNetwork1 === "Avalanche Fuji") {
+    filteredNetworks2.push("Polygon Amoy", "Base Sepolia", "Arbitrum Sepolia");
+  } else if (selectedNetwork1 === "Polygon Amoy") {
+    filteredNetworks2.push("Avalanche Fuji");
   }
 
   const { writeContractAsync: usdcContractWrite, data: usdcHash } = useWriteContract();
@@ -52,26 +58,36 @@ export default function BridgeKit() {
 
   const { writeContractAsync: bridgeContractWrite, data: bridgeHash } = useWriteContract();
 
-  const { isSuccess: isBridgeSuccess, isLoading: bridgeLoading} = useWaitForTransactionReceipt({ hash: bridgeHash });
+  const { isSuccess: isBridgeSuccess, isLoading: bridgeLoading } = useWaitForTransactionReceipt({
+    hash: bridgeHash,
+  });
 
   const approveUSDC = async () => {
     if (selectedNetwork1 && selectedNetwork2 && amount) {
-      try {setLoading('approve');
-      await usdcContractWrite({
-        address: usdcAddress[selectedNetwork1 as keyof typeof usdcAddress] as `0x${string}`, 
-        abi: USDCABI,
-        functionName: 'approve',
-        args: [
-          bridgeContracts[selectedNetwork1 === 'Base Sepolia' ? baseSepolia.id : selectedNetwork1 === 'Avalanche Fuji' ? avalancheFuji.id : polygonAmoy.id] as `0x${string}`, 
-          parseUnits(amount.toString(), 6)
-        ]
-      });} catch (e) {
+      try {
+        setLoading("approve");
+        await usdcContractWrite({
+          address: usdcAddress[selectedNetwork1 as keyof typeof usdcAddress] as `0x${string}`,
+          abi: USDCABI,
+          functionName: "approve",
+          args: [
+            bridgeContracts[
+              selectedNetwork1 === "Base Sepolia"
+                ? baseSepolia.id
+                : selectedNetwork1 === "Avalanche Fuji"
+                  ? avalancheFuji.id
+                  : polygonAmoy.id
+            ] as `0x${string}`,
+            parseUnits(amount.toString(), 6),
+          ],
+        });
+      } catch (e) {
         console.error(e);
-        setLoading('none');
-        toast.error('Something went wrong');
+        setLoading("none");
+        toast.error("Something went wrong");
       }
     }
-  }
+  };
 
   useEffect(() => {
     if (isSuccess) {
@@ -81,31 +97,39 @@ export default function BridgeKit() {
 
   useEffect(() => {
     if (isBridgeSuccess) {
-      setLoading('none');
-      toast.success('USDC bridged successfully');
+      setLoading("none");
+      toast.success("USDC bridged successfully");
     }
   }, [isBridgeSuccess]);
 
   const bridgeUSDC = async () => {
     if (selectedNetwork1 && selectedNetwork2 && amount) {
-      try {setLoading('bridge');
-      await bridgeContractWrite({
-        address: bridgeContracts[selectedNetwork1 === 'Base Sepolia' ? baseSepolia.id : selectedNetwork1 === 'Avalanche Fuji' ? avalancheFuji.id : polygonAmoy.id] as `0x${string}`, 
-        abi: bridgeABI,
-        functionName: 'sendMessagePayLINK',
-        args: [
-          chainIds[selectedNetwork2 as keyof typeof chainIds], 
-          address,
-          'Sending USDC',
-          usdcAddress[selectedNetwork1 as keyof typeof usdcAddress],
-          parseUnits(amount.toString(), 6)
-        ]
-      });} catch (e) {
+      try {
+        setLoading("bridge");
+        await bridgeContractWrite({
+          address: bridgeContracts[
+            selectedNetwork1 === "Base Sepolia"
+              ? baseSepolia.id
+              : selectedNetwork1 === "Avalanche Fuji"
+                ? avalancheFuji.id
+                : polygonAmoy.id
+          ] as `0x${string}`,
+          abi: bridgeABI,
+          functionName: "sendMessagePayLINK",
+          args: [
+            chainIds[selectedNetwork2 as keyof typeof chainIds],
+            address,
+            "Sending USDC",
+            usdcAddress[selectedNetwork1 as keyof typeof usdcAddress],
+            parseUnits(amount.toString(), 6),
+          ],
+        });
+      } catch (e) {
         console.error(e);
-        setLoading('none');
-        toast.error('Something went wrong');
+        setLoading("none");
+        toast.error("Something went wrong");
       }
-    };
+    }
   };
 
   return (
@@ -122,7 +146,7 @@ export default function BridgeKit() {
               onSelect={handleSelectNetwork1}
             />
           </div>
-            <IoSwapHorizontal size={25} className="text-neutral-600 rotate-90 md:rotate-0" />
+          <IoSwapHorizontal size={25} className="text-neutral-600 rotate-90 md:rotate-0" />
           <div className="min-w-full md:min-w-[12rem] lg:min-w-[17rem] xl:min-w-[16rem] 2xl:min-w-[20rem]">
             <Dropdown
               filteredBridgeNetworks={filteredNetworks2}
@@ -148,9 +172,14 @@ export default function BridgeKit() {
             required
           />
         </div>
-        <button onClick={approveUSDC} disabled={loading !== 'none'} className={`w-full items-center justify-center flex gap-2 bg-violet-500 hover:bg-violet-600 text-white text-lg font-primary font-semibold px-8 py-2.5 rounded-xl ${loading !== 'none' && 'bg-violet-400'}`}>
-          {loading === 'approve' ? 'Approving' : loading === 'bridge' ? 'Bridging' : 'Bridge'} {amount! > 0 && `${amount} USDC`}
-          {(loading !== 'none') && <Spinner className="text-white" />}
+        <button
+          onClick={approveUSDC}
+          disabled={loading !== "none"}
+          className={`w-full items-center justify-center flex gap-2 bg-violet-500 hover:bg-violet-600 text-white text-lg font-primary font-semibold px-8 py-2.5 rounded-xl ${loading !== "none" && "bg-violet-400"}`}
+        >
+          {loading === "approve" ? "Approving" : loading === "bridge" ? "Bridging" : "Bridge"}{" "}
+          {amount! > 0 && `${amount} USDC`}
+          {loading !== "none" && <Spinner className="text-white" />}
         </button>
       </div>
       <span className="flex flex-row items-center gap-3">
