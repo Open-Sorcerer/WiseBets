@@ -10,6 +10,7 @@ import {
   zkSyncOpinionTradingABI,
 } from "../../../contracts/consts";
 import Card from "@/components/trade/card";
+import { getETHPrice } from "@/utils";
 
 export const fetchCache = "force-no-store";
 
@@ -24,7 +25,7 @@ type TProposal = {
 
 export default function TradePage() {
   const { chain } = useAccount();
-
+  const [ethPrice, setEthPrice] = useState<number>(0);
   const [allProposals, setAllProposals] = useState<TProposal[]>([]);
 
   const client = createPublicClient({
@@ -63,9 +64,13 @@ export default function TradePage() {
       } catch (error) {
         console.log(error);
       }
+      const price = await getETHPrice() as number;
+      setEthPrice(price)
     };
     fetchData();
   }, [chain]);
+
+
 
   function timestampToDateString(timestamp: number) {
     const date = new Date(timestamp * 1000);
@@ -77,7 +82,7 @@ export default function TradePage() {
       <h1 className="text-2xl md:text-3xl font-title font-medium">Trade on Live Opinions ⚡️</h1>
       <div className="grid grid-flow-row grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3 mt-4">
         {allProposals.map((data, index) => (
-          <Card key={index} {...data} />
+          <Card key={index} {...data} ethPrice={ethPrice} />
         ))}
       </div>
     </div>

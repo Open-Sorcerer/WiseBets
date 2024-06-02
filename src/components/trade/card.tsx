@@ -20,9 +20,10 @@ interface CardProps {
   option2: string;
   deadline: string;
   id: number;
+  ethPrice: number;
 }
 
-export default function Card({ description, votes, option1, option2, deadline, id }: CardProps) {
+export default function Card({ description, votes, option1, option2, deadline, id, ethPrice }: CardProps) {
   const [bet, setBet] = useState<number>(0);
   const [trade, setTrade] = useState<boolean>(false);
   const [option, setOption] = useState<string>("");
@@ -159,7 +160,7 @@ export default function Card({ description, votes, option1, option2, deadline, i
               "Placing order..."
             ) : (
               <p>
-                Bet {option} {bet > 0 && `(${(bet * 3750).toFixed(2)} USD)`}
+                Bet {option} {bet > 0 && `(${(bet * ethPrice).toFixed(2)} USD)`}
               </p>
             )}
           </button>
