@@ -41,9 +41,15 @@ export const opinionTradingContracts = {
     chain: zkSyncSepoliaTestnet,
   },
   [baseSepolia.id]: {
+<<<<<<< Updated upstream
     contract: "0xB2C9e42d09de2561984C01A510aB66f13c342453",
     chain: baseSepolia,
   },
+=======
+    "contract": "0xAED99B0b91169350486209CDA32ec39Db42D668d",
+    "chain": baseSepolia
+  }
+>>>>>>> Stashed changes
 };
 
 export const pathways = {
