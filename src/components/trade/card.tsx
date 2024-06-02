@@ -5,7 +5,11 @@ import Input from "../form/input";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
 import { parseEther } from "viem";
 import toast from "react-hot-toast";
-import { opinionTradingABI, opinionTradingContracts, zkSyncOpinionTradingABI } from "../../../contracts/consts";
+import {
+  opinionTradingABI,
+  opinionTradingContracts,
+  zkSyncOpinionTradingABI,
+} from "../../../contracts/consts";
 import { zkSyncSepoliaTestnet } from "viem/zksync";
 import { baseSepolia } from "viem/chains";
 
@@ -33,7 +37,8 @@ export default function Card({ description, votes, option1, option2, deadline, i
     setIsLoading(true);
     writeContractAsync({
       account: address,
-      address: opinionTradingContracts[chain?.id as keyof typeof opinionTradingContracts]?.contract as `0x${string}`,
+      address: opinionTradingContracts[chain?.id as keyof typeof opinionTradingContracts]
+        ?.contract as `0x${string}`,
       abi: chain?.id === zkSyncSepoliaTestnet.id ? zkSyncOpinionTradingABI : opinionTradingABI,
       functionName: "vote",
       args: [id, option === option1 ? 1 : 2, 0, parseEther(bet.toString())],
@@ -60,46 +65,48 @@ export default function Card({ description, votes, option1, option2, deadline, i
   }, [status, isSuccess, isValid]);
 
   return (
-    <div className="flex flex-col w-[20rem] h-[14rem] bg-white bg-opacity-40 border border-neutral-100 backdrop-filter backdrop-blur-sm rounded-xl shadow-md p-6 justify-between">
+    <div className="flex flex-col w-[25rem] h-[14rem] bg-white bg-opacity-40 border border-neutral-100 backdrop-filter backdrop-blur-sm rounded-xl shadow-md p-6 justify-between">
       <span className="flex flex-row items-center justify-between">
         <h2 className="w-[80%] text-xl text-neutral-600 font-primary font-medium truncate">
           {description}
         </h2>
-        {chain?.id === baseSepolia.id && <button
-          onClick={() => {
-            !trade
-              ? window.open(
-                  `https://warpcast.com/~/compose?embeds[]=https://9f68-2402-a00-142-9d1d-8cf4-f49b-92f8-dcec.ngrok-free.app/bet?id=${id}`,
-                  "_blank",
-                )
-              : setTrade(false);
-          }}
-          className="bg-amber-400 justify-center items-center px-2 rounded-lg w-8 h-8 font-bold cursor-pointer"
-        >
-          {!trade ? (
-            <svg
-              viewBox="0 0 323 297"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4"
-            >
-              <path
-                d="M55.5867 0.733337H263.413V296.267H232.907V160.893H232.607C229.236 123.479 197.792 94.16 159.5 94.16C121.208 94.16 89.7642 123.479 86.3926 160.893H86.0933V296.267H55.5867V0.733337Z"
-                fill="#7c3aed"
-              />
-              <path
-                d="M0.293335 42.68L12.6867 84.6267H23.1733V254.32C17.9082 254.32 13.64 258.588 13.64 263.853V275.293H11.7333C6.46822 275.293 2.2 279.562 2.2 284.827V296.267H108.973V284.827C108.973 279.562 104.705 275.293 99.44 275.293H97.5333V263.853C97.5333 258.588 93.2651 254.32 88 254.32H76.56V42.68H0.293335Z"
-                fill="#7c3aed"
-              />
-              <path
-                d="M234.813 254.32C229.548 254.32 225.28 258.588 225.28 263.853V275.293H223.373C218.108 275.293 213.84 279.562 213.84 284.827V296.267H320.613V284.827C320.613 279.562 316.345 275.293 311.08 275.293H309.173V263.853C309.173 258.588 304.905 254.32 299.64 254.32V84.6267H310.127L322.52 42.68H246.253V254.32H234.813Z"
-                fill="#7c3aed"
-              />
-            </svg>
-          ) : (
-            "x"
-          )}
-        </button>}
+        {chain?.id === baseSepolia.id && (
+          <button
+            onClick={() => {
+              !trade
+                ? window.open(
+                    `https://warpcast.com/~/compose?embeds[]=https://9f68-2402-a00-142-9d1d-8cf4-f49b-92f8-dcec.ngrok-free.app/bet?id=${id}`,
+                    "_blank",
+                  )
+                : setTrade(false);
+            }}
+            className="bg-amber-400 justify-center items-center px-2 rounded-lg w-8 h-8 font-bold cursor-pointer"
+          >
+            {!trade ? (
+              <svg
+                viewBox="0 0 323 297"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-4 h-4"
+              >
+                <path
+                  d="M55.5867 0.733337H263.413V296.267H232.907V160.893H232.607C229.236 123.479 197.792 94.16 159.5 94.16C121.208 94.16 89.7642 123.479 86.3926 160.893H86.0933V296.267H55.5867V0.733337Z"
+                  fill="#7c3aed"
+                />
+                <path
+                  d="M0.293335 42.68L12.6867 84.6267H23.1733V254.32C17.9082 254.32 13.64 258.588 13.64 263.853V275.293H11.7333C6.46822 275.293 2.2 279.562 2.2 284.827V296.267H108.973V284.827C108.973 279.562 104.705 275.293 99.44 275.293H97.5333V263.853C97.5333 258.588 93.2651 254.32 88 254.32H76.56V42.68H0.293335Z"
+                  fill="#7c3aed"
+                />
+                <path
+                  d="M234.813 254.32C229.548 254.32 225.28 258.588 225.28 263.853V275.293H223.373C218.108 275.293 213.84 279.562 213.84 284.827V296.267H320.613V284.827C320.613 279.562 316.345 275.293 311.08 275.293H309.173V263.853C309.173 258.588 304.905 254.32 299.64 254.32V84.6267H310.127L322.52 42.68H246.253V254.32H234.813Z"
+                  fill="#7c3aed"
+                />
+              </svg>
+            ) : (
+              "x"
+            )}
+          </button>
+        )}
       </span>
       {!trade ? (
         <div className="flex flex-col w-full">

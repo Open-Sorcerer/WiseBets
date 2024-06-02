@@ -4,7 +4,11 @@ import { Input } from "@/components";
 import { SetStateAction, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { opinionTradingABI, opinionTradingContracts, zkSyncOpinionTradingABI } from "../../../contracts/consts";
+import {
+  opinionTradingABI,
+  opinionTradingContracts,
+  zkSyncOpinionTradingABI,
+} from "../../../contracts/consts";
 import { zkSyncSepoliaTestnet } from "viem/zksync";
 
 export default function CreateCampaign() {
@@ -34,7 +38,8 @@ export default function CreateCampaign() {
     setIsLoading(true);
     writeContractAsync({
       account: address,
-      address: opinionTradingContracts[chain?.id as keyof typeof opinionTradingContracts]?.contract as `0x${string}`,
+      address: opinionTradingContracts[chain?.id as keyof typeof opinionTradingContracts]
+        ?.contract as `0x${string}`,
       abi: chain?.id === zkSyncSepoliaTestnet.id ? zkSyncOpinionTradingABI : opinionTradingABI,
       functionName: "createProposal",
       args: [description, option1, option2, formatTimestamp(deadline)],
@@ -144,7 +149,7 @@ export default function CreateCampaign() {
                   });
                 }
               }}
-              className="w-full text-neutral-100 bg-gradient-to-tr from-violet-300 to-violet-500 hover:from-violet-400 hover:to-violet-600 hover:text-white rounded-lg px-5 py-2.5 text-center font-medium shadow disabled:opacity-75 disabled:cursor-progress"
+              className="w-full text-neutral-100 bg-gradient-to-tr from-violet-400 to-violet-500 hover:from-violet-400 hover:to-violet-600 hover:text-white rounded-lg px-5 py-2.5 text-center font-medium shadow disabled:opacity-75 disabled:cursor-progress"
               disabled={isLoading}
             >
               {isLoading ? "Getting your campaign ready..." : "Add campaign 🚀"}
