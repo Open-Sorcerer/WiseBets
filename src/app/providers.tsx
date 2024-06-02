@@ -5,12 +5,12 @@ import { WagmiProvider, createConfig } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import {
   avalancheFuji,
-  base,
   baseSepolia,
   moonbeam,
   polygonAmoy,
   polygonZkEvmCardona,
   scrollSepolia,
+  zkSyncSepoliaTestnet,
 } from "viem/chains";
 
 const config = createConfig(
@@ -20,9 +20,9 @@ const config = createConfig(
       polygonAmoy,
       scrollSepolia,
       avalancheFuji,
-      base,
       baseSepolia,
       moonbeam,
+      zkSyncSepoliaTestnet
     ],
     walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID!,
     appName: "WiseBets",

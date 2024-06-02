@@ -12,7 +12,6 @@ import { ConnectButton } from "./Connect";
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const pathname = usePathname();
-  const { chain } = useAccount();
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -77,7 +76,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link
-                href={`/trade?chainId=${chain?.id ?? baseSepolia.id}`}
+                href={`/trade`}
                 className={`block py-2 px-3 ${
                   pathname === "/trade"
                     ? "text-violet-500 hover:text-black"

@@ -4,10 +4,8 @@ import { Input } from "@/components";
 import { SetStateAction, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { networks } from "@/utils";
-
-let contractAddress: `0x${string}`;
-let abi: any;
+import { opinionTradingABI, opinionTradingContracts, zkSyncOpinionTradingABI } from "../../../contracts/consts";
+import { zkSyncSepoliaTestnet } from "viem/zksync";
 
 export default function CreateCampaign() {
   const [deadline, setDeadline] = useState<string>("");
@@ -25,12 +23,6 @@ export default function CreateCampaign() {
     hash: data,
   });
 
-  useEffect(() => {
-    contractAddress = networks.find((network) => network.chain === chain?.name)
-      ?.contract as `0x${string}`;
-    abi = networks.find((network) => network.chain === chain?.name)?.abi;
-  }, [chain?.name]);
-
   function formatTimestamp(deadline: string): number {
     const [day, month, year] = deadline.split(/\/|-/).map(Number);
     const date = new Date(year, month - 1, day);
@@ -42,8 +34,8 @@ export default function CreateCampaign() {
     setIsLoading(true);
     writeContractAsync({
       account: address,
-      address: contractAddress,
-      abi: abi,
+      address: opinionTradingContracts[chain?.id as keyof typeof opinionTradingContracts]?.contract as `0x${string}`,
+      abi: chain?.id === zkSyncSepoliaTestnet.id ? zkSyncOpinionTradingABI : opinionTradingABI,
       functionName: "createProposal",
       args: [description, option1, option2, formatTimestamp(deadline)],
     });

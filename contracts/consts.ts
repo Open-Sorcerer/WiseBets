@@ -1,16 +1,41 @@
+import { createPublicClient, http } from "viem";
+import { avalancheFuji, baseSepolia, moonbeam, polygonAmoy, polygonZkEvmCardona, scrollSepolia, zkSyncSepoliaTestnet } from "viem/chains";
+
 export const bridgeContracts = {
-  base: "0x3527a033DC85BEf7b9D2Ec8217d7aB9EedB08592",
-  fuji: "0x5EB2E851499Be5Bda359f3316Da43fE4099a1990",
-  amoy: "0xA4CCEb9e84b9682ca559AA41DB57f4BECe586dc5",
+  [baseSepolia.id]: "0x3527a033DC85BEf7b9D2Ec8217d7aB9EedB08592",
+  [avalancheFuji.id]: "0x5EB2E851499Be5Bda359f3316Da43fE4099a1990",
+  [polygonAmoy.id]: "0xA4CCEb9e84b9682ca559AA41DB57f4BECe586dc5",
 };
 
 export const opinionTradingContracts = {
-  amoy: "0x1a8784a45731F889D4a92258AE7E149d5C737AA1",
-  cardona: "0xA4CCEb9e84b9682ca559AA41DB57f4BECe586dc5",
-  scroll: "0x039A8561E235cF960bfed66AAD74441E3594aBb4",
-  fuji: "0x73aA77fd872208Db90175C3a8BFA2cbba8859732",
-  moonbeam: "0xA07637a697ba5c60DEF233508D57B9EDFffBE803",
-  zkSync: "0x7757D59d21D9d48382Ca3d755C5609a7a2F3BcBe"
+  [polygonAmoy.id]: {
+    "contract": "0x1a8784a45731F889D4a92258AE7E149d5C737AA1", 
+    "chain": polygonAmoy
+  },
+  [polygonZkEvmCardona.id]: {
+    "contract": "0xA4CCEb9e84b9682ca559AA41DB57f4BECe586dc5",
+    "chain": polygonZkEvmCardona
+  },
+  [scrollSepolia.id]: {
+    "contract": "0x039A8561E235cF960bfed66AAD74441E3594aBb4",
+    "chain": scrollSepolia
+  },
+  [avalancheFuji.id]: {
+    "contract": "0x73aA77fd872208Db90175C3a8BFA2cbba8859732",
+    "chain": avalancheFuji
+  },
+  [moonbeam.id]: {
+    "contract": "0xA07637a697ba5c60DEF233508D57B9EDFffBE803",
+    "chain": moonbeam
+  },
+  [zkSyncSepoliaTestnet.id]: {
+    "contract": "0x7757D59d21D9d48382Ca3d755C5609a7a2F3BcBe",
+    "chain": zkSyncSepoliaTestnet
+  },
+  [baseSepolia.id]: {
+    "contract": "0xB2C9e42d09de2561984C01A510aB66f13c342453",
+    "chain": baseSepolia
+  }
 };
 
 export const pathways = {
@@ -20,12 +45,69 @@ export const pathways = {
 };
 
 export const chainIds = {
-  fuji: "14767482510784806043",
-  base: "10344971235874465080",
-  optimism: "5224473277236331295",
-  amoy: "16281711391670634445",
-  arbitrum: "3478487238524512106",
+  'Avalanche Fuji': "14767482510784806043",
+  'Base Sepolia': "10344971235874465080",
+  'Optimism Sepolia': "5224473277236331295",
+  'Polygon Amoy': "16281711391670634445",
+  'Arbitrum Sepolia': "3478487238524512106",
 };
+
+export const usdcAddress = {
+  'Avalanche Fuji': "0x5425890298aed601595a70AB815c96711a31Bc65",
+  'Base Sepolia': "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+  'Optimism Sepolia': "0x5fd84259d66Cd46123540766Be93DFE6D43130D7",
+  'Polygon Amoy': "0x41E94Eb019C0762f9Bfcf9Fb1E58725BfB0e7582",
+  'Arbitrum Sepolia': '0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d'
+};
+
+export const USDCABI = [
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "spender",
+        type: "address",
+      },
+      {
+        name: "value",
+        type: "uint256",
+      },
+    ],
+    name: "approve",
+    outputs: [
+      {
+        name: "",
+        type: "bool",
+      },
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "owner",
+        type: "address",
+      },
+      {
+        name: "spender",
+        type: "address",
+      },
+    ],
+    name: "allowance",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 export const bridgeABI = [
   {
@@ -2688,3 +2770,60 @@ export const fujiOpinionTradingABI = [
 		"type": "function"
 	}
 ];
+
+export const aggregatorV3InterfaceABI = [
+  {
+    inputs: [],
+    name: "decimals",
+    outputs: [{ internalType: "uint8", name: "", type: "uint8" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "description",
+    outputs: [{ internalType: "string", name: "", type: "string" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "uint80", name: "_roundId", type: "uint80" }],
+    name: "getRoundData",
+    outputs: [
+      { internalType: "uint80", name: "roundId", type: "uint80" },
+      { internalType: "int256", name: "answer", type: "int256" },
+      { internalType: "uint256", name: "startedAt", type: "uint256" },
+      { internalType: "uint256", name: "updatedAt", type: "uint256" },
+      { internalType: "uint80", name: "answeredInRound", type: "uint80" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "latestRoundData",
+    outputs: [
+      { internalType: "uint80", name: "roundId", type: "uint80" },
+      { internalType: "int256", name: "answer", type: "int256" },
+      { internalType: "uint256", name: "startedAt", type: "uint256" },
+      { internalType: "uint256", name: "updatedAt", type: "uint256" },
+      { internalType: "uint80", name: "answeredInRound", type: "uint80" },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "version",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+export const dataFeedAddress = "0xfEefF7c3fB57d18C5C6Cdd71e45D2D0b4F9377bF";
+
+export const zkSyncClient = createPublicClient({
+  chain: zkSyncSepoliaTestnet,
+  transport: http()
+})

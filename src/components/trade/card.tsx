@@ -2,11 +2,12 @@ import React, { SetStateAction, useEffect, useState } from "react";
 import { BsPeopleFill } from "react-icons/bs";
 import { GiSandsOfTime } from "react-icons/gi";
 import Input from "../form/input";
-import { useRouter } from "next/navigation";
 import { useAccount, useWaitForTransactionReceipt, useWriteContract } from "wagmi";
-import { networks } from "@/utils";
 import { parseEther } from "viem";
 import toast from "react-hot-toast";
+import { opinionTradingABI, opinionTradingContracts, zkSyncOpinionTradingABI } from "../../../contracts/consts";
+import { zkSyncSepoliaTestnet } from "viem/zksync";
+import { baseSepolia } from "viem/chains";
 
 interface CardProps {
   description: string;
@@ -16,33 +17,24 @@ interface CardProps {
   deadline: string;
   id: number;
 }
-let contractAddress: `0x${string}`;
-let abi: any;
 
 export default function Card({ description, votes, option1, option2, deadline, id }: CardProps) {
   const [bet, setBet] = useState<number>(0);
   const [trade, setTrade] = useState<boolean>(false);
   const [option, setOption] = useState<string>("");
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { address, chain } = useAccount();
-  const { data, writeContractAsync, status, error } = useWriteContract();
+  const { data, writeContractAsync, status } = useWriteContract();
   const { isSuccess, status: isValid } = useWaitForTransactionReceipt({
     hash: data,
   });
-
-  useEffect(() => {
-    contractAddress = networks.find((network) => network.chain === chain?.name)
-      ?.contract as `0x${string}`;
-    abi = networks.find((network) => network.chain === chain?.name)?.abi;
-  }, [chain?.name]);
 
   const placeBet = async () => {
     setIsLoading(true);
     writeContractAsync({
       account: address,
-      address: contractAddress,
-      abi: abi,
+      address: opinionTradingContracts[chain?.id as keyof typeof opinionTradingContracts]?.contract as `0x${string}`,
+      abi: chain?.id === zkSyncSepoliaTestnet.id ? zkSyncOpinionTradingABI : opinionTradingABI,
       functionName: "vote",
       args: [id, option === option1 ? 1 : 2, 0, parseEther(bet.toString())],
       value: parseEther(bet.toString()),
@@ -73,11 +65,11 @@ export default function Card({ description, votes, option1, option2, deadline, i
         <h2 className="w-[80%] text-xl text-neutral-600 font-primary font-medium truncate">
           {description}
         </h2>
-        <button
+        {chain?.id === baseSepolia.id && <button
           onClick={() => {
             !trade
               ? window.open(
-                  `https://warpcast.com/~/compose?embeds[]=https://wisebets-frame.vercel.app/bet?id=${id}`,
+                  `https://warpcast.com/~/compose?embeds[]=https://9f68-2402-a00-142-9d1d-8cf4-f49b-92f8-dcec.ngrok-free.app/bet?id=${id}`,
                   "_blank",
                 )
               : setTrade(false);
@@ -107,7 +99,7 @@ export default function Card({ description, votes, option1, option2, deadline, i
           ) : (
             "x"
           )}
-        </button>
+        </button>}
       </span>
       {!trade ? (
         <div className="flex flex-col w-full">
